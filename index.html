@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        padding: 1rem;
+      }
+      .hero {
+        background-color: rgb(241, 241, 241);
+        padding: 4rem;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2),
+          0 0 6px 0 rgba(0, 0, 0, 0.19);
+      }
+      .finish {
+        position: relative;
+      }
+      .see {
+        padding: 3rem;
+        background-image: linear-gradient(
+          to bottom left,
+          rgb(252, 191, 78),
+          rgb(253, 165, 0)
+        );
+        margin-right: 7rem;
+        display: inline-block;
+        height: 300px;
+        width: 300px;
+        border-radius: 5px;
+        transform: translateY(-110px);
+        position: absolute;
+        right: 0;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      .btn {
+        padding: 10px 40px;
+        border: none;
+        border-radius: 100px;
+        outline: none;
+        background-color: #fff;
+        color: rgb(255, 165, 0);
+        transition: all 0.2s;
+      }
+      .btn:hover {
+        background-color: rgb(252, 242, 225);
+      }
+      .btn:active {
+        transform: translateY(3px);
+      }
+      .see-it {
+        margin-top: 5px;
+      }
+      .btn-1 {
+        padding: 10px 40px;
+        border-radius: 5px;
+        border: solid 1px orange;
+        outline: none;
+        color: orange;
+        transition: all 0.2s;
+        background-color: #fff;
+      }
+      .btn-1:hover {
+        background-color: rgb(252, 242, 225);
+        transform: scale(0.99);
+      }
+      .btn-1:active {
+        transform: translateY(3px);
+      }
+      input {
+        padding: 5px 6px;
+        border: none;
+        margin-bottom: 10px;
+      }
+      #map {
+        height: 500px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+    <title>JS TUTORIAL</title>
+  </head>
+  <body>
+    <div class="hero">
+      <!-- <h1>Hello Friday</h1>
+      <p class="number">0</p> -->
+      <div class="see-it">
+        <button style="border-radius: 100px" class="btn-1">+New Folder</button>
+      </div>
+      <div class="see-it">
+        <button class="btn-1">Deployments</button>
+      </div>
+    </div>
+    <div class="finish">
+      <div class="see">
+        <input type="text" name="" id="" placeholder="First name" />
+        <input type="text" name="" id="" placeholder="Last name" />
+        <button class="btn">Login</button>
+        <div class="see-it">
+          <button class="btn-1">Upload</button>
+        </div>
+      </div>
+    </div>
+    <div class="see-it">
+      <button class="btn-1">All files</button>
+    </div>
+    <div class="see-it">
+      <button class="btn-1">Deployments</button>
+    </div>
+    <div id="map">map</div>
+    <script>
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const { latitude } = position.coords;
+          const { longitude } = position.coords;
+
+          const coords = [latitude, longitude];
+          console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+
+          //API call starts here
+          const map = L.map("map").setView(coords, 13);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          L.marker(coords).addTo(map).bindPopup("Nyawira Location").openPopup();
+        },
+        function () {
+          alert("Could not get location...");
+        }
+      );
+
+      //     var person = {
+      //         name: "Isaac Waweru",
+      //         age: 24,
+      //         city: "Nairobi",
+      //         address: {
+      //             post: "2300",
+      //             town: "Nyahururu",
+      //             country: "Kenya"
+      //         }
+      //     }
+      //     console.log(person.address);
+      //     console.log(Object.values(person));
+
+      //     function addNumbers(n)   {
+      //         var n = true;
+      //         return n;
+      //     }
+
+      //     var add = addNumbers();
+
+      //     console.log(add);
+
+      //     function modulesNumbers(n3, n4) {
+      //         return n3%n4;
+      //     }
+
+      //     var modulus = modulesNumbers(10, 4)
+
+      //     console.log(modulus);
+
+      //     let oasis = 18;
+
+      //     if (oasis === 17) {
+      //         console.log("Young genius")
+      //     } else {
+      //         console.log("What a great genius!!")
+      //     }
+
+      //     let n = 2;
+
+      //     switch (n == 1){
+      //         case n > 1:
+      //         console.log("I am a genius");
+      //         break;
+      //         case n == 1:
+      //         console.log("The genius lives in me");
+      //         break;
+      //         case n < 1:
+      //         console.log("The genius is me")
+      //         break;
+
+      //     }
+      //    //comparison operators
+      //     console.log(10 == 10 && 20 == 20);
+      //     //Logical operators
+      //     console.log(10 == 10 || 20 == 10);
+
+      //     let www = "10";
+
+      //     if (www === 10) {
+      //         console.log("The world is small!");
+      //     } else {
+      //         console.log("The world belongs to people like me")
+      //     }
+
+      //     let x, y;
+      //     x = y = 25 - 10 - 5;
+      //     console.log(x, y);
+
+      //     ageFiddy = 12;
+      //     ageMercy = 15;
+
+      //     //operator procedence is very crucial ata all times
+      //     avarageAge = (12 + 15) / 2;
+      //     console.log(avarageAge);
+
+      //     //Calculating BMI using mass and height
+      //     markWeight = 95;
+      //     markHeight = 1.88;
+
+      //     markBMI = markWeight / markHeight ** 2;
+
+      //     console.log(markBMI);
+
+      //     johnWeight = 85;
+      //     johnHeight = 1.76;
+
+      //     johnBMI = johnWeight / johnHeight ** 2;
+
+      //     console.log(johnBMI);
+
+      //     console.log(markBMI > johnBMI);
+
+      //     let name = 'Isaac Waweru';
+      //     let age = 24.5;
+      //     let job = "programmer";
+
+      //     let details = `I am ${name} and am ${age} years old ${job}`;
+
+      //     console.log(details);
+
+      //     function awesomeGroup() {
+      //         console.log("HTML, CSS & JAVASCRIPT");
+      //         console.log("LEARN FROM EXPERTS");
+      //     }
+      //     awesomeGroup();
+
+      //     //type conversion
+      //     const inputAge = '1991';
+      //     const userIP = 192689201;
+      //     console.log(Number(inputAge), inputAge);
+      //     console.log(String(userIP));
+
+      //    //type coersion
+      //    console.log('I am '+ 23 + 'years old');
+      //    console.log(2020 + ' ' + 2021);
+      //    console.log('23' - '10' - 3);
+      //    console.log('20' / '5');
+      //    console.log('3' * '10');
+      //    console.log('56' / '45');
+      //    console.log('45' <= '56');
+
+      //    //self try
+      //    console.log('I am ' + age + ' years old.');
+
+      //    //truthy and falsy values
+      //    console.log(Boolean('Isaac'));
+      //    console.log(Boolean([]))
+      //    console.log(Boolean(0))
+      //    console.log(Boolean(undefined))
+
+      //    let money = null;
+      //    if(money) {
+      //        console.log("Don't spend all your money!")
+      //    }else{
+      //     console.log("Get a job my friend!")
+      //    }
+
+      //    //My test
+      //    let height;
+      //    console.log(Boolean(height));
+
+      //    //Boolean logical
+      //    const hasDriverLicense = true;
+      //    const hasGoodVision = true;
+      //    const isTired = true;
+
+      //    console.log(hasDriverLicense && hasGoodVision);
+      //    console.log(hasDriverLicense || hasGoodVision);
+      //    console.log(!hasGoodVision);
+
+      //    //Complex boolean logic
+      //    const shouldDrive = hasDriverLicense && hasGoodVision && !isTired;
+
+      //    if(shouldDrive) {
+      //        console.log("This is how it feels like!")
+      //    } else {
+      //        console.log("Here is the cool stuff about programming!")
+      //    }
+
+      //    //Test for teams
+      //    let scoreDolphins = (96 + 108 + 89) / 3;
+      //    let scoreKoalas = (88 + 91 + 110) / 3;
+      //    console.log(scoreDolphins, scoreKoalas);
+      //    if(scoreDolphins > scoreKoalas) {
+      //         console.log('Dolphins win the trophy!')
+      //    } else if (scoreKoalas > scoreDolphins) {
+      //     console.log('Koalas win the trophy!')
+      //    } else if (scoreDolphins === scoreKoalas) {
+      //        console.log("Both win the trophy!")
+      //    }
+
+      //swicth all the time strict comparison
+      const day = "sunday";
+
+      switch (day) {
+        case "monday":
+          console.log("Write todo list");
+          break;
+        case "tuesday":
+          console.log("Start doing code...");
+          break;
+        case "wenesday":
+        case "thursday":
+          console.log("Review code");
+          break;
+        case "friday":
+          console.log("Deploy all the modules");
+          break;
+        case "saturday":
+        case "sunday":
+          console.log("Sleep!");
+          break;
+      }
+      //conditional operators
+      const myAge = "15";
+      // myAge >= 18 ? console.log("I can drink a glass of wine") : console.log("I want to grow up fast");
+      const drink = myAge >= 18 ? "wine" : "water";
+      console.log(drink);
+
+      //Conditional operator in template literal
+      console.log(`I'am Isaac and I love ${myAge >= 18 ? "wine" : "water"}.`);
+
+      //billing tip
+      const bill = 50;
+      const tip = bill <= 300 && bill >= 50 ? bill * 0.15 : bill * 0.2;
+      console.log(
+        `The bill was ${bill}, and tip was ${tip} and the total value was ${
+          bill + tip
+        }`
+      );
+
+      teamFisi = ["Joe", "Isaac", "John"];
+      for (i = 0; i < teamFisi.length; i++) {
+        // document.querySelector(".fisi").textContent = teamFisi[i];
+      }
+      //   document.querySelector(".fisi").textContent = "Isaac";
+
+      console.log("//Here");
+
+      function deleteProducts() {
+        console.log(numProducts);
+        console.log("Products deleted...");
+        function xD() {
+          console.log(isaacGenius);
+          function wifeMajor() {
+            console.log(myWife);
+          }
+          wifeMajor();
+        }
+        xD();
+      }
+      const numProducts = 10;
+      const isaacGenius = "Isaac Waweru";
+      const myWife = "Jennifer Kali";
+      deleteProducts();
+
+      console.log("//Here i use this keyword");
+      //   console.log(
+      //     (document.querySelector(".fisi").textContent = this.deleteProducts)
+      //   );
+      const isaac = {
+        data: ["Jonas", "Mike", "Pip"],
+        name: "Isaac Waweru",
+        career: "Programmer",
+        year: 1996,
+        methods: {
+          calcAge: function () {
+            console.log(
+              `I am ${isaac.data[0]} and am ${
+                2021 - isaac.year
+              } years old and people call me a ${isaac.career}.`
+            );
+          },
+        },
+      };
+      isaac.methods.calcAge();
+
+      //   console.log("//A basic reminder");
+
+      //   teams = [10, 20, 30];
+      //   for (i = 0; i < teams.length; i++) {
+      //     let sum = 0;
+      //     sum += teams[i++];
+      //     // console.log(sum);
+      //   }
+
+      //   const calcAverage = function (arr) {
+      //     let sum = 0;
+      //     for (let i = 0; i < arr.length; i++) {
+      //       // sum = sum + arr[i];
+      //       sum += arr[i];
+      //     }
+      //     return sum / arr.length;
+      //   };
+      //   console.log(calcAverage([2, 3, 7]));
+
+      let drugs = ["Alcohol", "Weed", "Cocain"];
+      drugs.push("Heroin", "Tobbaco");
+      console.log(drugs);
+      document.querySelector(".btn").addEventListener("click", function () {
+        let number = 1;
+        number = number++;
+        console.log(number++);
+        document.querySelector(".number").textContent = number++;
+      });
+
+      let x = ["Vegetarian", "Kimbo", "Italian"];
+      let [main, secondary] = x;
+      [secondary, main] = [secondary, main];
+      console.log(secondary, main);
+
+      const sia = "Isaac";
+      const letters = [...sia];
+      console.log(letters[0]);
+
+      //See the bigger picture
+      function superClass(arrNew) {
+        let sum = 0;
+        for (i = 0; i < arrNew.length; i++) {
+          sum += arrNew[i];
+        }
+        return sum / arrNew.length;
+      }
+      console.log(superClass([1, 2, 4, 5]));
+
+      console.log("//My data structures starts here...");
+      const game = {
+        team1: "Bayern Munich",
+        team2: "Borrussia Dortmund",
+        players: [
+          [
+            "Neuer",
+            "Pavard",
+            "Martinez",
+            "Alaba",
+            "Davies",
+            "Kimmich",
+            "Goretzka",
+            "Coman",
+            "Muller",
+            "Gnarby",
+            "Lewandowski",
+          ],
+          [
+            "Burki",
+            "Schulz",
+            "Hummels",
+            "Akanji",
+            "Hakimi",
+            "Weigl",
+            "Witsel",
+            "Hazard",
+            "Brandt",
+            "Sancho",
+            "Gotze",
+          ],
+        ],
+        score: "4:0",
+        scored: ["Lewandowski", "Gnarby", "Lewandowski", "Hummels"],
+        date: "Nov 9th, 2037",
+        odds: {
+          team1: 1.33,
+          x: 3.25,
+          team2: 6.5,
+        },
+      };
+
+      //Array destructuring
+      const [players1, players2] = game.players;
+      const [gk, ...playerOthers] = players1;
+      console.log(gk, playerOthers);
+
+      const allPlayers = [...players1, ...players2];
+      console.log(allPlayers);
+      console.log(...allPlayers);
+      console.log("////Destructure an object");
+
+      const {
+        odds: { team1: teamA, x: draw, team2: teamB },
+      } = game;
+      console.log(teamA, draw, teamB);
+      console.log("//See this happening");
+
+      function totalGoals(...players) {
+        console.log(`${players.length} scored!!`);
+      }
+      totalGoals(...game.scored);
+
+      //Team likely to win
+      teamA < teamB && console.log("Team 1 is likely to win");
+      teamA > teamB && console.log("Team 2 is likely to win");
+
+      //Players one looped
+      for (const item of allPlayers) console.log(item);
+      for (const [i, el] of players1.entries()) {
+        console.log(`${i + 1} ${el}`);
+      }
+      //Test something
+      days = {
+        mon: "11am",
+        tue: "1pm",
+        wed: "6pm",
+        thur: "7am",
+      };
+      const dayD = Object.keys(days);
+      const valueS = Object.entries(days);
+      console.log(valueS);
+      let openStr = `We are open in ${dayD.length} days a week:`;
+      for (const day of dayD) {
+        openStr += `${day}, `;
+      }
+      console.log(openStr);
+
+      var fruits = [
+        "Banana",
+        "Orange",
+        "Apple",
+        "Mongo",
+        "Mause",
+        "Nurse",
+        "June",
+      ];
+      console.log(fruits.sort());
+      fruits.reverse();
+      console.log("//The best coder ever...");
+      // (function () {
+      //   const header = document.querySelector("h1");
+      //   header.style.color = "red";
+
+      //   document.querySelector("body").addEventListener("click", function () {
+      //     header.style.color = "blue";
+      //   });
+      // })();
+
+      const arrM = [
+        {
+          name: "isaac",
+          email: "isaac@gmail.com",
+        },
+        {
+          name: "lynda",
+          email: "lynda@gmail.com",
+        },
+        {
+          name: "Joss",
+          email: "joss@gmail.com",
+        },
+      ];
+
+      console.log(arrM.reverse());
+      for (const { name, email } of arrM) {
+        console.log(name, email);
+      }
+
+      const firstName = "Isaac";
+      console.log(firstName[0]);
+
+      // var HttpClient = function () {
+      //   this.get = function (aUrl, aCallback) {
+      //     var anHttpRequest = new XMLHttpRequest();
+      //     anHttpRequest.onreadystatechange = function () {
+      //       if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+      //         aCallback(anHttpRequest.responseText);
+      //     };
+
+      //     anHttpRequest.open("GET", aUrl, true);
+      //     anHttpRequest.send(null);
+      //   };
+      // };
+
+      // var client = new HttpClient();
+      // let valuesA;
+      // client.get(
+      //   "https://jsonplaceholder.typicode.com/todos",
+      //   (response) => (valuesA = response)
+      // );
+      // console.log(valuesA);
+
+      const arrMaths = [11, 12, 14, 56, 81];
+
+      function majorM(arr) {
+        const maxNumber = Math.max(...arr);
+        const minNumber = Math.min(...arr);
+        console.log(maxNumber, minNumber);
+      }
+      majorM(arrMaths);
+
+      //Dates
+      const timeStamp = Date.now();
+      console.log(timeStamp);
+      console.log(new Date(timeStamp));
+      const now = new Date(2037, 10, 18, 56, 34, 5);
+      console.log(now.toISOString());
+      console.log(2030 - 1996);
+      const locale = navigator.language;
+      console.log(locale);
+
+      setTimeout(() => console.log("Hello the greatest of all time..."), 4000);
+
+      const Person = function (firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      };
+
+      Person.prototype.calcAGE = function () {
+        return console.log(this.lastName[0]);
+      };
+      const isako = new Person("Isaac", "Waweru");
+      console.log(isako);
+      isako.calcAGE();
+    </script>
+  </body>
+</html>
